@@ -52,9 +52,6 @@
     #roomName { font-size: 12px; color: #444; margin: 4px 0; overflow-wrap: anywhere; }
     /* Pantalla de torneo: el contenido principal sigue legible desde lejos. */
     body { background: #101115; color: #fff; }
-    .event-header { position: absolute; inset: 0 0 auto; height: 112px; z-index: 2; background: linear-gradient(110deg, #211713, #17181c 55%, #271710); border-bottom: 2px solid #e67519; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; text-align: center; padding: 12px 72px; }
-    .event-header h1 { margin: 0; font-size: clamp(20px, 2.4vw, 40px); letter-spacing: .055em; line-height: 1.1; text-transform: uppercase; }
-    .event-header p { margin: 0; color: #d2c9c3; font-size: clamp(11px, 1.2vw, 18px); letter-spacing: .18em; text-transform: uppercase; }
     .container { min-height: 100dvh; height: auto; padding-top: 112px; background: #111216; }
     .panel { min-height: calc(100dvh - 112px); }
     #leftPanel { flex: 0 0 48%; padding: clamp(26px, 4vw, 78px); gap: 20px; background: radial-gradient(circle at 20% 80%, #3c2117, #18191d 65%); border-right: 1px solid #4c3023; text-align: center; }
@@ -84,7 +81,6 @@
     .modal button { cursor: pointer; }
     button:focus-visible, a:focus-visible { outline: 3px solid #ffad64; outline-offset: 3px; }
     @media (max-width: 800px) {
-      .event-header { position: relative; height: auto; min-height: 90px; }
       .container { padding-top: 0; display: flex; flex-direction: column; }
       .panel { min-height: 0; }
       #leftPanel { flex: none; padding: 20px; border-right: 0; border-bottom: 1px solid #4c3023; }
@@ -95,9 +91,50 @@
       .control-bar { min-height: 88px; }
       .control-bar button { min-width: 110px; padding: 12px; }
     }
+    body[data-palette="ember"] { --accent: #ed771e; --accent-soft: #ffad64; --accent-dark: #3b2117; --surface: #17181c; --surface-raised: #24252a; --edge: #66402b; --text: #fff; --muted: #cec8c3; --danger: #ff6262; --glow: #3a2319; }
+    body[data-palette="ocean"] { --accent: #267bdc; --accent-soft: #8dc7ff; --accent-dark: #142a44; --surface: #101a2c; --surface-raised: #1c304a; --edge: #37648d; --text: #fff; --muted: #c6d6eb; --danger: #ff7676; --glow: #163c61; }
+    body[data-palette="forest"] { --accent: #318c62; --accent-soft: #a1e8c2; --accent-dark: #18392c; --surface: #111d18; --surface-raised: #1d3329; --edge: #3b7455; --text: #fff; --muted: #d0dfd5; --danger: #ff7979; --glow: #1c4a32; }
+    body[data-palette="violet"] { --accent: #8657cf; --accent-soft: #d0adff; --accent-dark: #312046; --surface: #191323; --surface-raised: #30243e; --edge: #685180; --text: #fff; --muted: #e0d4ed; --danger: #ff828e; --glow: #41295d; }
+    body { background: var(--surface); color: var(--text); }
+    .container { padding-top: 0; background: var(--surface); }
+    .panel { min-height: 100dvh; }
+    #leftPanel { background: radial-gradient(circle at 20% 80%, var(--glow), var(--surface) 65%); border-color: var(--edge); }
+    #rightPanel { background: radial-gradient(circle at 75% 35%, var(--surface-raised), var(--surface) 74%); }
+    #qrInstruction, #timer { color: var(--text); }
+    .timer-kicker { color: var(--muted); }
+    .progress-track { background: var(--accent-dark); }
+    #timerProgress { background: var(--accent); }
+    #timerStatus { background: var(--accent); }
+    #timerStatus[data-status="paused"] { background: var(--surface-raised); border: 1px solid var(--edge); }
+    #timerStatus[data-status="ended"] { background: var(--danger); color: #12151a; }
+    .control-bar { border-color: var(--edge); }
+    .control-bar button, .edit-button { background: var(--surface-raised); color: var(--text); border-color: var(--edge); }
+    .control-bar #resetButton { color: var(--accent-soft); background: var(--accent-dark); border-color: var(--accent); }
+    #roomWelcome, #judgeView { background: var(--surface); color: var(--text); }
+    #judgeTimer { color: var(--text); }
+    #controlSync { border: 2px solid var(--accent); }
+    #controlSync.collapsed { border: 0; }
+    #syncToggle { border-color: var(--accent); }
+    #imagenes { padding: 4px 0 12px; }
+    .modal-content { max-width: 540px; }
+    .modal-content h2 { margin-top: 0; }
+    .modal-content input[type="number"], .modal-content input[type="url"], .modal-content select { display: block; width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #b5b7c0; border-radius: 8px; font: inherit; }
+    .settings-hint { color: #555b63; font-size: 14px; }
+    .palette-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; border: 0; padding: 0; margin: 20px 0 6px; }
+    .palette-grid legend { font-weight: 700; margin-bottom: 10px; }
+    .palette-grid label { display: flex; align-items: center; gap: 8px; padding: 10px; margin: 0; border: 2px solid #d7d8dc; border-radius: 10px; font-size: 14px; cursor: pointer; }
+    .palette-grid label:has(input:checked) { border-color: #292d35; background: #f4f4f7; }
+    .palette-grid label:has(input:focus-visible) { outline: 3px solid #99521e; }
+    .palette-grid input { width: auto; margin: 0; }
+    .palette-swatches { display: flex; width: 58px; min-width: 58px; height: 24px; border-radius: 5px; overflow: hidden; background: linear-gradient(90deg, var(--swatch-dark) 0 34%, var(--swatch-accent) 34% 68%, var(--swatch-soft) 68%); }
+    @media (max-width: 500px) { .palette-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 800px) {
+      #leftPanel { min-height: 0; }
+      #rightPanel { min-height: 520px; }
+    }
   </style>
 </head>
-<body>
+<body data-palette="ember">
   <section id="roomWelcome"><div><h1>Temporizador de torneos</h1><p>Inicia sesión o crea una cuenta en el recuadro inferior. Tu cuenta abrirá siempre la misma sala.</p></div></section>
   <div id="judgeView" aria-label="Temporizador para staff"><div id="judgeTimer" role="timer">02:00</div><div id="judgeStatus" role="status"></div></div>
   <div id="controlSync" hidden>
@@ -118,10 +155,6 @@
     </div>
   </div>
   <div class="container">
-    <header class="event-header">
-      <h1 id="eventTitle">MI TORNEO</h1>
-      <p id="eventRound">RONDA 1</p>
-    </header>
     <div id="leftPanel" class="panel">
       <img id="leftImage" src="" alt="Contenido visual del torneo" style="display:none;">
       <p id="qrInstruction"></p>
@@ -145,14 +178,7 @@
 
   <div id="modal" class="modal">
     <div class="modal-content">
-      <div class="tabs">
-        <div class="tab active" onclick="showTab('imagenes')">Imagen y QR</div>
-        <div class="tab" onclick="showTab('fondoIzquierdo')">Fondo Izquierdo</div>
-        <div class="tab" onclick="showTab('fondoDerecho')">Fondo Derecho</div>
-        <div class="tab" onclick="showTab('textoTiempo')">Texto y Tiempo</div>
-        <div class="tab" onclick="showTab('estiloBotones')">Estilo Botones</div>
-      </div>
-
+      <h2>Editar temporizador</h2>
       <div id="imagenes" class="tab-content active">
         <label>Logo:</label>
         <button onclick="document.getElementById('logoInput').click()">Subir Logo</button>
@@ -173,62 +199,16 @@
         <p id="qrStatus" role="status" aria-live="polite"></p>
       </div>
 
-      <div id="fondoIzquierdo" class="tab-content">
-        <h4>Fondo Izquierdo</h4>
-        <select id="leftBackgroundType" onchange="updateBackgroundOptions('left')">
-          <option value="color">Color Sólido</option>
-          <option value="gradient">Gradiente</option>
-          <option value="image">Imagen</option>
-        </select>
-        <div id="leftBackgroundOptions"></div>
-      </div>
-
-      <div id="fondoDerecho" class="tab-content">
-        <h4>Fondo Derecho</h4>
-        <select id="rightBackgroundType" onchange="updateBackgroundOptions('right')">
-          <option value="color">Color Sólido</option>
-          <option value="gradient">Gradiente</option>
-          <option value="image">Imagen</option>
-        </select>
-        <div id="rightBackgroundOptions"></div>
-      </div>
-
-      <div id="textoTiempo" class="tab-content">
-        <h4>Datos del evento</h4>
-        <label for="eventTitleInput">Nombre del torneo:</label>
-        <input type="text" id="eventTitleInput" maxlength="64" value="MI TORNEO">
-        <label for="eventRoundInput">Ronda y categoría:</label>
-        <input type="text" id="eventRoundInput" maxlength="64" value="RONDA 1">
-        <h4>Tiempo</h4>
-        <label>Tiempo del Timer (minutos):</label>
-        <input type="number" id="timerInput" min="1" step="1" value="2" onchange="updateTimerTime()">
-
-        <h4>Texto</h4>
-        <label>Tamaño del Timer:</label>
-        <input type="range" id="timerSize" min="80" max="320" value="250" oninput="applyTextStyles()">
-        <label>Peso Tipográfico:</label>
-        <select id="timerWeight" onchange="applyTextStyles()">
-          <option value="normal">Normal</option>
-          <option value="bold" selected>Bold</option>
-          <option value="bolder">Bolder</option>
-        </select>
-        <label>Color Timer:</label>
-        <input type="color" id="timerColor" value="#ffffff" oninput="applyTextStyles()">
-        <label>Color Cuenta Negativa:</label>
-        <input type="color" id="negativeColor" value="#ff6262" oninput="applyTextStyles()">
-
-        
-      </div>
-
-      <div id="estiloBotones" class="tab-content">
-        <h4>Estilo de los Botones</h4>
-        <label>Color de Fondo:</label>
-        <input type="color" id="buttonBgColor" oninput="applyButtonStyles()">
-        <label>Color del Texto:</label>
-        <input type="color" id="buttonTextColor" oninput="applyButtonStyles()">
-        <label>Radio de Borde (px):</label>
-        <input type="range" id="buttonBorderRadius" min="0" max="50" oninput="applyButtonStyles()">
-      </div>
+      <label for="timerInput">Duración (minutos):</label>
+      <input type="number" id="timerInput" min="1" max="1440" step="1" value="2">
+      <fieldset class="palette-grid">
+        <legend>Paleta de colores</legend>
+        <label><input type="radio" name="palette" value="ember" checked onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#17181c;--swatch-accent:#ed771e;--swatch-soft:#ffad64"></span>Naranja nocturno</label>
+        <label><input type="radio" name="palette" value="ocean" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#101a2c;--swatch-accent:#267bdc;--swatch-soft:#8dc7ff"></span>Azul eléctrico</label>
+        <label><input type="radio" name="palette" value="forest" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#111d18;--swatch-accent:#318c62;--swatch-soft:#a1e8c2"></span>Verde bosque</label>
+        <label><input type="radio" name="palette" value="violet" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#191323;--swatch-accent:#8657cf;--swatch-soft:#d0adff"></span>Violeta nocturno</label>
+      </fieldset>
+      <p class="settings-hint">La paleta cambia fondos, acentos, botones y estados en ambas vistas.</p>
 
       <br>
       <button onclick="saveSettings()">Guardar</button>
@@ -1512,22 +1492,15 @@ module.exports = QRCode;
 })();
 </script>
   <script>
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tab-content');
-
-    function showTab(id) {
-      tabs.forEach(tab => tab.classList.remove('active'));
-      contents.forEach(content => content.classList.remove('active'));
-      document.querySelector(`.tab[onclick*="${id}"]`).classList.add('active');
-      document.getElementById(id).classList.add('active');
-    }
-
     function openModal() {
       document.getElementById('modal').style.display = 'flex';
     }
 
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
+      applyPalette(savedPalette);
+      document.querySelector(`input[name="palette"][value="${savedPalette}"]`).checked = true;
+      document.getElementById('timerInput').value = savedMinutes;
     }
 
     // Legacy local settings are used only to migrate an existing room once.
@@ -1536,69 +1509,65 @@ module.exports = QRCode;
       return room ? `timer:${room}:${name}` : name;
     }
 
+    const palettes = new Set(['ember', 'ocean', 'forest', 'violet']);
+    let savedPalette = 'ember';
+    let savedMinutes = 2;
+    function applyPalette(name) {
+      document.body.dataset.palette = palettes.has(name) ? name : 'ember';
+    }
+
     async function saveSettings() {
       const mode = document.querySelector('input[name="leftVisualMode"]:checked').value;
-      if (mode === 'qr' && !generateQR()) return;
+      if (mode === 'qr' && document.getElementById('qrUrl').value.trim() && !generateQR()) return;
+      if (mode === 'qr' && !document.getElementById('qrUrl').value.trim()) {
+        qrImageSrc = '';
+        renderLeftVisual();
+      }
       if (mode === 'upload' && !uploadedImageSrc) {
         document.getElementById('qrStatus').textContent = 'Selecciona una imagen antes de guardar.';
         return;
       }
-      applyTextStyles();
-      applyButtonStyles();
-
-      const logo = document.getElementById('logo');
-      const imageSettings = {
-        logoSrc: logo.getAttribute('src') || '',
-        leftVisualMode: mode,
-        uploadedImageSrc,
-        qrUrl: document.getElementById('qrUrl').value.trim()
+      const minutes = Number(document.getElementById('timerInput').value);
+      if (!Number.isInteger(minutes) || minutes < 1 || minutes > 1440) {
+        document.getElementById('qrStatus').textContent = 'Ingresa una duración de 1 a 1440 minutos.';
+        return;
+      }
+      const settings = {
+        images: {
+          logoSrc: document.getElementById('logo').getAttribute('src') || '',
+          leftVisualMode: mode,
+          uploadedImageSrc,
+          qrUrl: document.getElementById('qrUrl').value.trim()
+        },
+        palette: document.querySelector('input[name="palette"]:checked').value,
+        minutes
       };
-      const leftPanel = document.getElementById('leftPanel');
-      const rightPanel = document.getElementById('rightPanel');
-      const backgroundSettings = {
-        left: leftPanel.style.background,
-        right: rightPanel.style.background
-      };
-
-      const textSettings = {
-        eventTitle: document.getElementById('eventTitleInput').value.trim() || 'MI TORNEO',
-        eventRound: document.getElementById('eventRoundInput').value.trim() || 'RONDA 1',
-        size: document.getElementById('timerSize').value,
-        weight: document.getElementById('timerWeight').value,
-        color: document.getElementById('timerColor').value,
-        negativeColor: document.getElementById('negativeColor').value,
-        minutes: document.getElementById('timerInput').value
-      };
-
-      const buttonSettings = {
-        bgColor: document.getElementById('buttonBgColor').value,
-        textColor: document.getElementById('buttonTextColor').value,
-        borderRadius: document.getElementById('buttonBorderRadius').value
-      };
-      const settings = { images: imageSettings, backgrounds: backgroundSettings,
-        text: textSettings, buttons: buttonSettings };
-      applyEventDetails();
       if (typeof window.saveRoomSettings !== 'function') {
         document.getElementById('qrStatus').textContent = 'Espera a que se conecte la sala para guardar.';
         return;
       }
-      const saved = await window.saveRoomSettings(settings);
-      if (saved) closeModal();
+      if (await window.saveRoomSettings(settings)) {
+        savedPalette = settings.palette;
+        if (minutes !== savedMinutes) window.updateTimerTime();
+        savedMinutes = minutes;
+        closeModal();
+      }
     }
 
     function legacySettings() {
       try {
         const read = name => JSON.parse(localStorage.getItem(settingsKey(name)) || 'null');
         const images = read('imageSettings');
-        const backgrounds = read('backgroundSettings');
         const text = read('textSettings');
-        const buttons = read('buttonSettings');
-        return images || backgrounds || text || buttons ? { images, backgrounds, text, buttons } : null;
+        return images || text ? { images, minutes: Number(text?.minutes) || 2, palette: 'ember' } : null;
       } catch { return null; }
     }
 
     function loadSettings(settings) {
       if (!settings || typeof settings !== 'object') return;
+      savedPalette = palettes.has(settings.palette) ? settings.palette : 'ember';
+      document.querySelector(`input[name="palette"][value="${savedPalette}"]`).checked = true;
+      applyPalette(savedPalette);
       const images = settings.images;
       if (images) {
         const logo = document.getElementById('logo');
@@ -1615,133 +1584,16 @@ module.exports = QRCode;
         const radio = document.querySelector(`input[name="leftVisualMode"][value="${mode}"]`);
         if (radio) radio.checked = true;
         if (images.qrUrl) generateQR();
+        else qrImageSrc = '';
         switchLeftVisualMode();
       }
-
-      const backgrounds = settings.backgrounds;
-      if (backgrounds) {
-        document.getElementById('leftPanel').style.background = backgrounds.left || '';
-        document.getElementById('rightPanel').style.background = backgrounds.right || '';
-      }
-
-      const text = settings.text;
-      if (text) {
-        document.getElementById('eventTitleInput').value = text.eventTitle || 'MI TORNEO';
-        document.getElementById('eventRoundInput').value = text.eventRound || 'RONDA 1';
-        applyEventDetails();
-        document.getElementById('timerSize').value = text.size;
-        document.getElementById('timerWeight').value = text.weight;
-        document.getElementById('timerColor').value = text.color;
-        document.getElementById('negativeColor').value = text.negativeColor;
-        document.getElementById('timerInput').value = text.minutes;
-        timeLeft = parseInt(text.minutes) * 60;
-        applyTextStyles();
+      const minutes = Number(settings.minutes ?? settings.text?.minutes);
+      if (Number.isInteger(minutes) && minutes >= 1 && minutes <= 1440) {
+        savedMinutes = minutes;
+        document.getElementById('timerInput').value = minutes;
+        timeLeft = minutes * 60;
         updateTimerDisplay();
       }
-
-      const buttons = settings.buttons;
-      if (buttons) {
-        document.getElementById('buttonBgColor').value = buttons.bgColor;
-        document.getElementById('buttonTextColor').value = buttons.textColor;
-        document.getElementById('buttonBorderRadius').value = buttons.borderRadius;
-        applyButtonStyles();
-      }
-    }
-
-    function updateBackgroundOptions(panel) {
-      const type = document.getElementById(panel + 'BackgroundType').value;
-      const optionsContainer = document.getElementById(panel + 'BackgroundOptions');
-      optionsContainer.innerHTML = '';
-
-      if (type === 'color') {
-        const input = document.createElement('input');
-        input.type = 'color';
-        input.oninput = () => {
-          document.getElementById(panel + 'Panel').style.background = input.value;
-        };
-        optionsContainer.appendChild(input);
-      } else if (type === 'gradient') {
-        const gradientTypeSelect = document.createElement('select');
-        gradientTypeSelect.innerHTML = `
-          <option value="linear">Gradiente Lineal</option>
-          <option value="radial">Gradiente Radial</option>
-        `;
-
-        const directionSelect = document.createElement('select');
-        directionSelect.innerHTML = `
-          <option value="to right">→ Derecha</option>
-          <option value="to left">← Izquierda</option>
-          <option value="to top">↑ Arriba</option>
-          <option value="to bottom">↓ Abajo</option>
-          <option value="to top right">↗ Diagonal (arriba derecha)</option>
-          <option value="to bottom left">↙ Diagonal (abajo izquierda)</option>
-        `;
-
-        const color1 = document.createElement('input');
-        color1.type = 'color';
-        const color2 = document.createElement('input');
-        color2.type = 'color';
-
-        const applyGradient = () => {
-          const type = gradientTypeSelect.value;
-          const dir = directionSelect.value;
-          const c1 = color1.value;
-          const c2 = color2.value;
-          const panelElement = document.getElementById(panel + 'Panel');
-
-          if (type === 'linear') {
-            panelElement.style.background = `linear-gradient(${dir}, ${c1}, ${c2})`;
-          } else if (type === 'radial') {
-            panelElement.style.background = `radial-gradient(${c1}, ${c2})`;
-          }
-        };
-
-        [gradientTypeSelect, directionSelect, color1, color2].forEach(el => {
-          el.addEventListener('input', applyGradient);
-          el.addEventListener('change', applyGradient);
-          optionsContainer.appendChild(el);
-        });
-      } else if (type === 'image') {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = (e) => {
-          const file = e.target.files[0];
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            const panelElement = document.getElementById(panel + 'Panel');
-            panelElement.style.backgroundImage = `url(${ev.target.result})`;
-            panelElement.style.backgroundSize = 'cover';
-            panelElement.style.backgroundPosition = 'center';
-          };
-          if (file) reader.readAsDataURL(file);
-        };
-        optionsContainer.appendChild(input);
-      }
-    }
-
-    function applyTextStyles() {
-      const timer = document.getElementById('timer');
-      timer.style.setProperty('--timer-size', document.getElementById('timerSize').value + 'px');
-      timer.style.fontWeight = document.getElementById('timerWeight').value;
-      timer.style.color = document.getElementById('timerColor').value;
-    }
-
-    function applyEventDetails() {
-      document.getElementById('eventTitle').textContent = document.getElementById('eventTitleInput').value.trim() || 'MI TORNEO';
-      document.getElementById('eventRound').textContent = document.getElementById('eventRoundInput').value.trim() || 'RONDA 1';
-    }
-
-    function applyButtonStyles() {
-      const buttons = document.querySelectorAll('.customizable-button');
-      const bg = document.getElementById('buttonBgColor').value;
-      const color = document.getElementById('buttonTextColor').value;
-      const radius = document.getElementById('buttonBorderRadius').value + 'px';
-      buttons.forEach(btn => {
-        btn.style.backgroundColor = bg;
-        btn.style.color = color;
-        btn.style.borderRadius = radius;
-      });
     }
 
     let soundContext;
@@ -1793,9 +1645,7 @@ if (timeLeft === 0) {
   playEndSound();
 }
 
-if (timeLeft < 0) {
-  document.getElementById('timer').style.color = document.getElementById('negativeColor').value;
-}
+if (timeLeft < 0) document.getElementById('timer').style.color = 'var(--danger)';
 
         }, 1000);
         button.textContent = 'Pausar';
@@ -1814,7 +1664,7 @@ if (timeLeft < 0) {
       const input = document.getElementById('timerInput');
       timeLeft = parseInt(input.value) * 60;
       updateTimerDisplay();
-      applyTextStyles();
+      document.getElementById('timer').style.color = 'var(--text)';
       document.getElementById('toggleButton').textContent = 'Iniciar';
     }
 
@@ -2038,15 +1888,13 @@ if (timeLeft < 0) {
       if (!isJudge) {
         const display = document.getElementById('timer');
         display.textContent = label;
-        display.style.color = seconds < 0
-          ? document.getElementById('negativeColor').value
-          : document.getElementById('timerColor').value;
+        display.style.color = seconds < 0 ? 'var(--danger)' : 'var(--text)';
         document.getElementById('toggleButton').textContent = currentState.running ? 'Pausar' : 'Iniciar';
         window.renderTimerState(seconds, currentState.running);
         if (lastSecond !== null && lastSecond > 0 && seconds <= 0)
           window.playEndSound();
       }
-      document.getElementById('judgeTimer').style.color = seconds < 0 ? '#ff6262' : '#fff';
+      document.getElementById('judgeTimer').style.color = seconds < 0 ? 'var(--danger)' : 'var(--text)';
       lastSecond = seconds;
     }
     function updateAccess() {
@@ -2105,9 +1953,9 @@ if (timeLeft < 0) {
         const db = dbModule.getDatabase(app);
         roomRef = rawRoom ? dbModule.ref(db, 'rooms/' + roomId) : null;
         stateRef = rawRoom ? dbModule.ref(db, 'rooms/' + roomId + '/state') : null;
-        settingsRef = rawRoom && !isJudge ? dbModule.ref(db, 'rooms/' + roomId + '/settings') : null;
+        settingsRef = rawRoom ? dbModule.ref(db, 'rooms/' + roomId + '/settings') : null;
         if (settingsRef) {
-          window.saveRoomSettings = async settings => {
+          if (!isJudge) window.saveRoomSettings = async settings => {
             if (!canControl) {
               document.getElementById('qrStatus').textContent = 'Inicia sesión como propietario de esta sala para guardar.';
               return false;
@@ -2126,7 +1974,11 @@ if (timeLeft < 0) {
             settingsLoaded = true;
             remoteSettingsPresent = snap.exists();
             if (snap.exists()) {
-              try { window.loadSettings(JSON.parse(snap.val())); }
+              try {
+                const settings = JSON.parse(snap.val());
+                if (isJudge) window.applyPalette(settings.palette);
+                else window.loadSettings(settings);
+              }
               catch { syncStatus.textContent = 'No se pudieron leer los ajustes de la sala.'; }
             }
             migrateLegacySettings();
