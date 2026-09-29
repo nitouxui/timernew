@@ -56,12 +56,9 @@
     .panel { min-height: calc(100dvh - 112px); }
     #leftPanel { flex: 0 0 48%; padding: clamp(26px, 4vw, 78px); gap: 20px; background: radial-gradient(circle at 20% 80%, #3c2117, #18191d 65%); border-right: 1px solid #4c3023; text-align: center; }
     #leftImage { width: auto; max-width: min(100%, 62vh); max-height: min(62vh, 650px); background: #fff; padding: clamp(10px, 1.5vw, 22px); border-radius: 12px; box-shadow: 0 16px 45px #0005; margin: 0 auto; }
-    #qrInstruction { margin: 0; font-size: clamp(17px, 1.5vw, 26px); font-weight: 600; color: #f5eeea; }
-    #qrInstruction:empty { display: none; }
     #rightPanel { padding: 38px clamp(24px, 3.5vw, 70px) 118px; background: radial-gradient(circle at 70% 35%, #202127, #111216 75%); }
     .timer-stage { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; flex: 1; }
     #logo { max-width: 150px !important; max-height: 82px; object-fit: contain; margin-bottom: 8px; }
-    .timer-kicker { color: #c5c5c9; font-size: clamp(14px, 1.45vw, 22px); font-weight: 700; letter-spacing: .19em; text-transform: uppercase; }
     #timer { font-size: clamp(100px, 13vw, var(--timer-size, 290px)); font-weight: 800; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: -.055em; white-space: nowrap; }
     .progress-track { width: min(100%, 700px); height: 9px; background: #483025; border-radius: 99px; overflow: hidden; }
     #timerProgress { width: 100%; height: 100%; background: linear-gradient(90deg, #ff9a36, #df6107); border-radius: inherit; transition: width .3s linear; }
@@ -95,13 +92,18 @@
     body[data-palette="ocean"] { --accent: #267bdc; --accent-soft: #8dc7ff; --accent-dark: #142a44; --surface: #101a2c; --surface-raised: #1c304a; --edge: #37648d; --text: #fff; --muted: #c6d6eb; --danger: #ff7676; --glow: #163c61; }
     body[data-palette="forest"] { --accent: #318c62; --accent-soft: #a1e8c2; --accent-dark: #18392c; --surface: #111d18; --surface-raised: #1d3329; --edge: #3b7455; --text: #fff; --muted: #d0dfd5; --danger: #ff7979; --glow: #1c4a32; }
     body[data-palette="violet"] { --accent: #8657cf; --accent-soft: #d0adff; --accent-dark: #312046; --surface: #191323; --surface-raised: #30243e; --edge: #685180; --text: #fff; --muted: #e0d4ed; --danger: #ff828e; --glow: #41295d; }
+    body[data-palette="sunset"] { --accent: #e15d55; --accent-soft: #ffc4a4; --accent-dark: #452529; --surface: #20171e; --surface-raised: #38262d; --edge: #965c57; --text: #fff; --muted: #f0d6d3; --danger: #ffaaa8; --glow: #572a32; }
+    body[data-palette="gold"] { --accent: #d6a329; --accent-soft: #ffe4a0; --accent-dark: #403217; --surface: #1c1b17; --surface-raised: #373328; --edge: #826b35; --text: #fff; --muted: #e9dfc9; --danger: #ff8585; --glow: #47391c; }
+    body[data-palette="turquoise"] { --accent: #138f9c; --accent-soft: #9ce8e7; --accent-dark: #163c43; --surface: #112126; --surface-raised: #1c3b42; --edge: #407e84; --text: #fff; --muted: #c8e2e3; --danger: #ff8989; --glow: #18505a; }
+    body[data-palette="crimson"] { --accent: #cf3e5a; --accent-soft: #ffadbc; --accent-dark: #481e31; --surface: #21171d; --surface-raised: #3b2632; --edge: #874657; --text: #fff; --muted: #eed4dc; --danger: #ff9c80; --glow: #532138; }
+    body[data-palette="ice"] { --accent: #6a90d6; --accent-soft: #c6ddff; --accent-dark: #23344d; --surface: #192433; --surface-raised: #2a3c52; --edge: #59728d; --text: #fff; --muted: #d9e4f2; --danger: #ffa3a3; --glow: #324966; }
+    body[data-palette="graphite"] { --accent: #8f9ba8; --accent-soft: #f0f2f5; --accent-dark: #353a40; --surface: #16191d; --surface-raised: #2a3036; --edge: #69727b; --text: #fff; --muted: #d1d6da; --danger: #ff8181; --glow: #353b43; }
     body { background: var(--surface); color: var(--text); }
     .container { padding-top: 0; background: var(--surface); }
     .panel { min-height: 100dvh; }
     #leftPanel { background: radial-gradient(circle at 20% 80%, var(--glow), var(--surface) 65%); border-color: var(--edge); }
     #rightPanel { background: radial-gradient(circle at 75% 35%, var(--surface-raised), var(--surface) 74%); }
-    #qrInstruction, #timer { color: var(--text); }
-    .timer-kicker { color: var(--muted); }
+    #timer { color: var(--text); }
     .progress-track { background: var(--accent-dark); }
     #timerProgress { background: var(--accent); }
     #timerStatus { background: var(--accent); }
@@ -157,14 +159,12 @@
   <div class="container">
     <div id="leftPanel" class="panel">
       <img id="leftImage" src="" alt="Contenido visual del torneo" style="display:none;">
-      <p id="qrInstruction"></p>
     </div>
     <div id="rightPanel" class="panel">
       <button class="edit-button customizable-button" onclick="openModal()">Editar</button>
       <input type="file" accept="image/*" id="logoInput" style="display:none;">
       <div class="timer-stage">
         <img id="logo" src="" alt="Logo" style="display:none;">
-        <div class="timer-kicker">TIEMPO RESTANTE</div>
         <div id="timer" role="timer">02:00</div>
         <div class="progress-track" aria-hidden="true"><div id="timerProgress"></div></div>
         <div id="timerStatus" data-status="paused">LISTO PARA INICIAR</div>
@@ -207,6 +207,12 @@
         <label><input type="radio" name="palette" value="ocean" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#101a2c;--swatch-accent:#267bdc;--swatch-soft:#8dc7ff"></span>Azul eléctrico</label>
         <label><input type="radio" name="palette" value="forest" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#111d18;--swatch-accent:#318c62;--swatch-soft:#a1e8c2"></span>Verde bosque</label>
         <label><input type="radio" name="palette" value="violet" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#191323;--swatch-accent:#8657cf;--swatch-soft:#d0adff"></span>Violeta nocturno</label>
+        <label><input type="radio" name="palette" value="sunset" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#20171e;--swatch-accent:#e15d55;--swatch-soft:#ffc4a4"></span>Atardecer coral</label>
+        <label><input type="radio" name="palette" value="gold" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#1c1b17;--swatch-accent:#d6a329;--swatch-soft:#ffe4a0"></span>Oro cálido</label>
+        <label><input type="radio" name="palette" value="turquoise" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#112126;--swatch-accent:#138f9c;--swatch-soft:#9ce8e7"></span>Turquesa profundo</label>
+        <label><input type="radio" name="palette" value="crimson" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#21171d;--swatch-accent:#cf3e5a;--swatch-soft:#ffadbc"></span>Frambuesa</label>
+        <label><input type="radio" name="palette" value="ice" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#192433;--swatch-accent:#6a90d6;--swatch-soft:#c6ddff"></span>Azul hielo</label>
+        <label><input type="radio" name="palette" value="graphite" onchange="applyPalette(this.value)"><span class="palette-swatches" style="--swatch-dark:#16191d;--swatch-accent:#8f9ba8;--swatch-soft:#f0f2f5"></span>Grafito</label>
       </fieldset>
       <p class="settings-hint">La paleta cambia fondos, acentos, botones y estados en ambas vistas.</p>
 
@@ -1509,7 +1515,7 @@ module.exports = QRCode;
       return room ? `timer:${room}:${name}` : name;
     }
 
-    const palettes = new Set(['ember', 'ocean', 'forest', 'violet']);
+    const palettes = new Set(['ember', 'ocean', 'forest', 'violet', 'sunset', 'gold', 'turquoise', 'crimson', 'ice', 'graphite']);
     let savedPalette = 'ember';
     let savedMinutes = 2;
     function applyPalette(name) {
@@ -1712,9 +1718,7 @@ if (timeLeft < 0) document.getElementById('timer').style.color = 'var(--danger)'
     function renderLeftVisual() {
       const mode = document.querySelector('input[name="leftVisualMode"]:checked').value;
       const image = document.getElementById('leftImage');
-      const instruction = document.getElementById('qrInstruction');
       const src = mode === 'qr' ? qrImageSrc : uploadedImageSrc;
-      instruction.textContent = src && mode === 'qr' ? 'Escanea para ver tus pareos' : '';
       if (src) {
         image.src = src;
         image.alt = mode === 'qr' ? 'Código QR del enlace del torneo' : 'Imagen del torneo';
